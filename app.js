@@ -7,6 +7,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const incompleteTaskRouter = require("./routes/incompleteTask.route");
+
+app.use("/incomplete-task", incompleteTaskRouter);
+
 app.get("/", (req, res, next) => {
   res
     .status(200)
