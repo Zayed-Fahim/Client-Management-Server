@@ -45,7 +45,7 @@ exports.updateToDoTaskService = async (query, data) => {
     if (!updatedTask) {
       return null;
     }
-    return updatedTask;
+    return updatedTask.attachments.length;
   } catch (error) {
     console.error("Error updating ToDo task:", error.message);
     throw error;

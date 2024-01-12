@@ -89,7 +89,6 @@ exports.updateIncompleteTask = async (req, res, next) => {
         .status(304)
         .json({ status: "Failed", message: "Attachments not updated" });
     }
-    console.log(result);
     res.status(200).json({
       status: "Success",
       message: "SuccessFull Updated",

@@ -90,7 +90,13 @@ exports.updateUnderReviewTask = async (req, res, next) => {
         .status(304)
         .json({ status: "Failed", message: "Attachments not updated" });
     }
-    res.status(200).json({ status: "Success", message: "SuccessFull Updated" });
+    res
+      .status(200)
+      .json({
+        status: "Success",
+        message: "SuccessFull Updated",
+        payload: result,
+      });
   } catch (error) {
     console.error(error.message);
     res

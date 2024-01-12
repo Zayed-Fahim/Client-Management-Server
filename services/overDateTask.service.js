@@ -45,7 +45,7 @@ exports.updateOverDateTaskService = async (query, data) => {
     if (!updatedTask) {
       return null;
     }
-    return updatedTask;
+    return updatedTask.attachments.length;
   } catch (error) {
     console.error("Error updating OverDate task:", error.message);
     throw error;

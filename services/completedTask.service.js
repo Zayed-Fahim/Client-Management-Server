@@ -45,7 +45,7 @@ exports.updateCompletedTaskService = async (query, data) => {
     if (!updatedTask) {
       return null;
     }
-    return updatedTask;
+    return updatedTask.attachments.length;
   } catch (error) {
     console.error("Error updating Completed task:", error.message);
     throw error;
