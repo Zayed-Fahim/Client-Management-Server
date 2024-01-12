@@ -77,21 +77,27 @@ exports.updateIncompleteTask = async (req, res, next) => {
   try {
     const { assigned_for, task_id } = req.params;
     const query = { assigned_for, task_id };
+
     const taskExists = await IncompleteTask.exists({
       $and: [{ assigned_for: assigned_for }, { task_id: task_id }],
     });
+
     if (!taskExists) {
-      return res.status(404).json({ status: Failed, message: "Not Found" });
+      return res.status(404).json({ status: "Failed", message: "Not Found" });
     }
+
     const result = await updateIncompleteTaskService(query, req.body);
+
     if (result === null) {
       return res
         .status(304)
         .json({ status: "Failed", message: "Attachments not updated" });
     }
+
+    console.log(result);
     res.status(200).json({
       status: "Success",
-      message: "SuccessFull Updated",
+      message: "Successfully Updated",
       payload: result,
     });
   } catch (error) {
