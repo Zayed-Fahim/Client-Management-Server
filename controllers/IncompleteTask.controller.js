@@ -59,13 +59,11 @@ exports.getIncompleteTaskByID = async (req, res, next) => {
         .status(304)
         .json({ status: "Failed", message: "No inComplete task found" });
     }
-    res
-      .status(200)
-      .json({
-        status: "Success",
-        message: "Found the incomplete task",
-        payload: result,
-      });
+    res.status(200).json({
+      status: "Success",
+      message: "Found the incomplete task",
+      payload: result,
+    });
   } catch (error) {
     console.error(error.message);
     res
@@ -91,7 +89,12 @@ exports.updateIncompleteTask = async (req, res, next) => {
         .status(304)
         .json({ status: "Failed", message: "Attachments not updated" });
     }
-    res.status(200).json({ status: "Success", message: "SuccessFull Updated" });
+    console.log(result);
+    res.status(200).json({
+      status: "Success",
+      message: "SuccessFull Updated",
+      payload: result,
+    });
   } catch (error) {
     console.error(error.message);
     res
