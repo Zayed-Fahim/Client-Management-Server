@@ -1,21 +1,21 @@
-const IncompleteTask = require("../models/IncompleteTask");
+const CompletedTask = require("../models/CompletedTask");
 const {
-  postIncompleteTaskService,
-  getIncompleteTaskService,
-  updateIncompleteTaskService,
-  getIncompleteTaskByIDService,
-} = require("../services/IncompleteTask.service");
+  postCompletedTaskService,
+  getCompletedTaskService,
+  getCompletedTaskByIDService,
+  updateCompletedTaskService,
+} = require("../services/completedTask.service");
 
-exports.postIncompleteTask = async (req, res, next) => {
+exports.postCompletedTask = async (req, res, next) => {
   try {
     const { task_id } = req.body;
-    const alreadyExists = await IncompleteTask.exists({ task_id });
+    const alreadyExists = await CompletedTask.exists({ task_id });
     if (alreadyExists) {
       return res
         .status(509)
         .json({ status: "Conflict", message: "Task already exists" });
     }
-    const result = await postIncompleteTaskService(req.body);
+    const result = await postCompletedTaskService(req.body);
     res.status(200).json({ status: "Success", message: "Post successfully" });
   } catch (error) {
     console.error(error.message);
@@ -26,12 +26,12 @@ exports.postIncompleteTask = async (req, res, next) => {
   }
 };
 
-exports.getIncompleteTask = async (req, res, next) => {
+exports.getCompletedTask = async (req, res, next) => {
   try {
-    const result = await getIncompleteTaskService();
+    const result = await getCompletedTaskService();
     res.status(200).json({
       status: "Success",
-      message: "Here are all Incomplete Task Data",
+      message: "Here are all Completed Task Data",
       payload: result,
     });
   } catch (error) {
@@ -43,29 +43,28 @@ exports.getIncompleteTask = async (req, res, next) => {
   }
 };
 
-exports.getIncompleteTaskByID = async (req, res, next) => {
+exports.getCompletedTaskByID = async (req, res, next) => {
   try {
     const { assigned_for, task_id } = req.params;
     const query = { assigned_for, task_id };
-    const taskExists = await IncompleteTask.exists({
+    const taskExists = await CompletedTask.exists({
       $and: [{ assigned_for: assigned_for }, { task_id: task_id }],
     });
     if (!taskExists) {
       return res.status(404).json({ status: "Failed", message: "Not Found" });
     }
-    const result = await getIncompleteTaskByIDService(query);
+    const result = await getCompletedTaskByIDService(query);
     if (result === null) {
-      return res
-        .status(304)
-        .json({ status: "Failed", message: "No inComplete task found" });
-    }
-    res
-      .status(200)
-      .json({
-        status: "Success",
-        message: "Found the incomplete task",
-        payload: result,
+      return res.status(304).json({
+        status: "Failed",
+        message: "No Completed Task found",
       });
+    }
+    res.status(200).json({
+      status: "Success",
+      message: "Found the Completed Task",
+      payload: result,
+    });
   } catch (error) {
     console.error(error.message);
     res
@@ -75,17 +74,17 @@ exports.getIncompleteTaskByID = async (req, res, next) => {
   }
 };
 
-exports.updateIncompleteTask = async (req, res, next) => {
+exports.updateCompletedTask = async (req, res, next) => {
   try {
     const { assigned_for, task_id } = req.params;
     const query = { assigned_for, task_id };
-    const taskExists = await IncompleteTask.exists({
+    const taskExists = await CompletedTask.exists({
       $and: [{ assigned_for: assigned_for }, { task_id: task_id }],
     });
     if (!taskExists) {
       return res.status(404).json({ status: Failed, message: "Not Found" });
     }
-    const result = await updateIncompleteTaskService(query, req.body);
+    const result = await updateCompletedTaskService(query, req.body);
     if (result === null) {
       return res
         .status(304)

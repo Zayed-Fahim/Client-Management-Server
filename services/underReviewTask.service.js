@@ -1,17 +1,17 @@
-const IncompleteTask = require("../models/IncompleteTask");
+const UnderReviewTask = require("../models/UnderReview");
 
-exports.postIncompleteTaskService = async (data) => {
-  const result = await IncompleteTask.create(data);
+exports.postUnderReviewTaskService = async (data) => {
+  const result = await UnderReviewTask.create(data);
   return result;
 };
-exports.getIncompleteTaskService = async () => {
-  const result = await IncompleteTask.find({});
+exports.getUnderReviewTaskService = async () => {
+  const result = await UnderReviewTask.find({});
   return result;
 };
 
-exports.getIncompleteTaskByIDService = async (query) => {
+exports.getUnderReviewTaskByIDService = async (query) => {
   try {
-    const task = await IncompleteTask.findOne({
+    const task = await UnderReviewTask.findOne({
       $and: [{ assigned_for: query.assigned_for }, { task_id: query.task_id }],
     });
     if (!task) {
@@ -19,17 +19,17 @@ exports.getIncompleteTaskByIDService = async (query) => {
     }
     return task;
   } catch (error) {
-    console.error("No incomplete task found:", error.message);
+    console.error("No UnderReview task found:", error.message);
     throw error;
   }
 };
 
-exports.updateIncompleteTaskService = async (query, data) => {
+exports.updateUnderReviewTaskService = async (query, data) => {
   try {
     if (!data || !data.attachments || data.attachments.length === 0) {
       return null;
     }
-    const updatedTask = await IncompleteTask.findOneAndUpdate(
+    const updatedTask = await UnderReviewTask.findOneAndUpdate(
       {
         $and: [
           { assigned_for: query.assigned_for },
@@ -47,7 +47,7 @@ exports.updateIncompleteTaskService = async (query, data) => {
     }
     return updatedTask;
   } catch (error) {
-    console.error("Error updating incomplete task:", error.message);
+    console.error("Error updating UnderReview task:", error.message);
     throw error;
   }
 };

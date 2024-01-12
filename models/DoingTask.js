@@ -36,7 +36,7 @@ const fileSchema = new mongoose.Schema({
     required: true,
   },
 });
-const incompleteTaskSchema = new mongoose.Schema(
+const doingTaskSchema = new mongoose.Schema(
   {
     task_id: {
       type: Number,
@@ -112,5 +112,5 @@ const incompleteTaskSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const IncompleteTask = mongoose.model("IncompleteTask", incompleteTaskSchema);
-module.exports = IncompleteTask;
+const DoingTask = mongoose.model("DoingTask", doingTaskSchema);
+module.exports = DoingTask;

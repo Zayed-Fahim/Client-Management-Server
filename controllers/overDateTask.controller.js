@@ -1,21 +1,21 @@
-const IncompleteTask = require("../models/IncompleteTask");
+const OverDateTask = require("../models/OverDateTask");
 const {
-  postIncompleteTaskService,
-  getIncompleteTaskService,
-  updateIncompleteTaskService,
-  getIncompleteTaskByIDService,
-} = require("../services/IncompleteTask.service");
+  postOverDateTaskService,
+  getOverDateTaskService,
+  getOverDateTaskByIDService,
+  updateOverDateTaskService,
+} = require("../services/overDateTask.service");
 
-exports.postIncompleteTask = async (req, res, next) => {
+exports.postOverDateTask = async (req, res, next) => {
   try {
     const { task_id } = req.body;
-    const alreadyExists = await IncompleteTask.exists({ task_id });
+    const alreadyExists = await OverDateTask.exists({ task_id });
     if (alreadyExists) {
       return res
         .status(509)
         .json({ status: "Conflict", message: "Task already exists" });
     }
-    const result = await postIncompleteTaskService(req.body);
+    const result = await postOverDateTaskService(req.body);
     res.status(200).json({ status: "Success", message: "Post successfully" });
   } catch (error) {
     console.error(error.message);
@@ -26,12 +26,12 @@ exports.postIncompleteTask = async (req, res, next) => {
   }
 };
 
-exports.getIncompleteTask = async (req, res, next) => {
+exports.getOverDateTask = async (req, res, next) => {
   try {
-    const result = await getIncompleteTaskService();
+    const result = await getOverDateTaskService();
     res.status(200).json({
       status: "Success",
-      message: "Here are all Incomplete Task Data",
+      message: "Here are all OverDate Task Data",
       payload: result,
     });
   } catch (error) {
@@ -43,29 +43,27 @@ exports.getIncompleteTask = async (req, res, next) => {
   }
 };
 
-exports.getIncompleteTaskByID = async (req, res, next) => {
+exports.getOverDateTaskByID = async (req, res, next) => {
   try {
     const { assigned_for, task_id } = req.params;
     const query = { assigned_for, task_id };
-    const taskExists = await IncompleteTask.exists({
+    const taskExists = await OverDateTask.exists({
       $and: [{ assigned_for: assigned_for }, { task_id: task_id }],
     });
     if (!taskExists) {
       return res.status(404).json({ status: "Failed", message: "Not Found" });
     }
-    const result = await getIncompleteTaskByIDService(query);
+    const result = await getOverDateTaskByIDService(query);
     if (result === null) {
       return res
         .status(304)
-        .json({ status: "Failed", message: "No inComplete task found" });
+        .json({ status: "Failed", message: "No OverDate task found" });
     }
-    res
-      .status(200)
-      .json({
-        status: "Success",
-        message: "Found the incomplete task",
-        payload: result,
-      });
+    res.status(200).json({
+      status: "Success",
+      message: "Found the OverDate task",
+      payload: result,
+    });
   } catch (error) {
     console.error(error.message);
     res
@@ -75,17 +73,17 @@ exports.getIncompleteTaskByID = async (req, res, next) => {
   }
 };
 
-exports.updateIncompleteTask = async (req, res, next) => {
+exports.updateOverDateTask = async (req, res, next) => {
   try {
     const { assigned_for, task_id } = req.params;
     const query = { assigned_for, task_id };
-    const taskExists = await IncompleteTask.exists({
+    const taskExists = await OverDateTask.exists({
       $and: [{ assigned_for: assigned_for }, { task_id: task_id }],
     });
     if (!taskExists) {
       return res.status(404).json({ status: Failed, message: "Not Found" });
     }
-    const result = await updateIncompleteTaskService(query, req.body);
+    const result = await updateOverDateTaskService(query, req.body);
     if (result === null) {
       return res
         .status(304)
