@@ -26,7 +26,6 @@ exports.getIncompleteTaskByIDService = async (query) => {
 
 exports.updateIncompleteTaskService = async (query, data) => {
   try {
-    const alreadyExists = { attachments: { $exists: true, $ne: [] } };
     if (!data || !data.attachments || data.attachments.length === 0) {
       return null;
     }
@@ -49,9 +48,9 @@ exports.updateIncompleteTaskService = async (query, data) => {
       return null;
     }
 
-    const count = await IncompleteTask.countDocuments(alreadyExists);
-    console.log(`Number of documents with attachments: ${count}`);
-    return count;
+    const result = await IncompleteTask.countDocuments(updatedTask);
+
+    return result;
   } catch (error) {
     console.error("Error updating incomplete task:", error.message);
     throw error;
