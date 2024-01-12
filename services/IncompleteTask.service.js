@@ -48,9 +48,7 @@ exports.updateIncompleteTaskService = async (query, data) => {
       return null;
     }
 
-    const result = await IncompleteTask.countDocuments(updatedTask);
-
-    return result;
+    return updatedTask;
   } catch (error) {
     console.error("Error updating incomplete task:", error.message);
     throw error;
